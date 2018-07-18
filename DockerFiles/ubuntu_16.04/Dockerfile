@@ -29,8 +29,8 @@ COPY apache2.conf /etc/apache2/apache2.conf
 
 # Copy certificates
 RUN mkdir -p /etc/ssl/certs
-COPY totem-label.crt /etc/ssl/certs/totem-label.crt
-COPY totem-label.key /etc/ssl/certs/totem-label.key
+COPY certs/totem-label.crt /etc/ssl/certs/totem-label.crt
+COPY certs/totem-label.key /etc/ssl/certs/totem-label.key
 
 # Clone LabelMe, move it and make
 RUN git clone https://github.com/sicara/LabelMeAnnotationTool.git
