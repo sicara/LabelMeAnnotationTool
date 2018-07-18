@@ -20,6 +20,7 @@ RUN apt-get install -y \
 # Config apache
 RUN a2enmod include
 RUN a2enmod rewrite
+RUN a2enmod ssl
 RUN a2enmod cgi
 
 # apache2 configuration: enabling SSI and perl/CGI scripts
