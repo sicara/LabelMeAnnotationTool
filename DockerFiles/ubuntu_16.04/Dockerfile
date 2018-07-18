@@ -33,7 +33,6 @@ RUN cd /var/www/html/LabelMeAnnotationTool/ && make
 RUN chown -R www-data:www-data /var/www/html
 
 # port binding
-EXPOSE 80
 EXPOSE 443
 
 # run

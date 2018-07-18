@@ -2,7 +2,6 @@
 
 docker run \
 --name labelme \
--p 8080:80 \
 -p 443:443 \
 -d \
 --entrypoint "/bin/bash" \
