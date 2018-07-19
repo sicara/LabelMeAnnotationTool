@@ -24,7 +24,6 @@ RUN a2enmod ssl
 RUN a2enmod cgi
 
 # apache2 configuration: enabling SSI and perl/CGI scripts
-COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 COPY apache2.conf /etc/apache2/apache2.conf
 
