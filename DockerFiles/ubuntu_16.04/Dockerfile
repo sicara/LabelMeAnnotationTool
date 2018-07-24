@@ -33,7 +33,9 @@ COPY certs/totem-label.crt /etc/ssl/certs/totem-label.crt
 COPY certs/totem-label.key /etc/ssl/certs/totem-label.key
 
 # Clone LabelMe, move it and make
+ARG CACHEBUST=1
 RUN git clone https://github.com/sicara/LabelMeAnnotationTool.git
+ARG CACHEBUST=0
 RUN mv ./LabelMeAnnotationTool/ /var/www/html/LabelMeAnnotationTool/
 RUN cd /var/www/html/LabelMeAnnotationTool/ && make
 RUN chown -R www-data:www-data /var/www/html
