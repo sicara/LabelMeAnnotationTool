@@ -12,19 +12,32 @@ having to install or copy a large dataset onto their computers.
 
    B. C. Russell, A. Torralba, K. P. Murphy, W. T. Freeman.
    LabelMe: a Database and Web-based Tool for Image Annotation.
-   International Journal of Computer Vision, 77(1-3):157-173, 2008. 
+   International Journal of Computer Vision, 77(1-3):157-173, 2008.
    [Project page](http://labelme.csail.mit.edu)
 
 
 ### DOWNLOAD:
 
-You can download a [zip file of the source code](https://github.com/CSAILVision/LabelMeAnnotationTool/archive/master.zip) directly.  
+You can download a [zip file of the source code](https://github.com/CSAILVision/LabelMeAnnotationTool/archive/master.zip) directly.
 
 Alternatively, you can clone it from GitHub as follows:
 
 ``` sh
 $ git clone https://github.com/CSAILVision/LabelMeAnnotationTool.git
 ```
+
+### RUN ON DOCKER
+
+#### Instructions to use the Dockerfile:
+
+* In `terminal` navigate to this directory.
+* Run `$bash ./build_labelme_image.sh` to build the labelme image.
+* Run `$bash ./start_labelme_container.sh` to start the container.
+* Point your favourite browser to **https://localhost:443/LabelMeAnnotationTool/tool.html**. Let the Labeling Begin!
+
+#### NOTE:
+* If restarting the container, run `$service apache2 restart` inside the container to restart the apache2 server.
+* The two **.conf** files are to set up and configure the apache2 server. Refer [video](https://www.youtube.com/watch?v=07uHcjRjAbM) for more info.
 
 
 ### CONTENTS:
@@ -61,7 +74,7 @@ $ git clone https://github.com/CSAILVision/LabelMeAnnotationTool.git
    folders/filenames have alphanumeric characters (i.e. no spaces or
    funny characters).
 
-4. Point your web browser to the following URL: 
+4. Point your web browser to the following URL:
 
    http://www.yourserver.edu/path/to/LabelMe/tool.html?collection=LabelMe&mode=f&folder=example_folder&image=img1.jpg
 
@@ -204,6 +217,6 @@ definitions.
 (e.g. for Mechanical Turk instructions, etc.).
 
 
----- 
+----
 
 (c) 2015, MIT Computer Science and Artificial Intelligence Laboratory

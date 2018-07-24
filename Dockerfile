@@ -24,8 +24,8 @@ RUN a2enmod ssl
 RUN a2enmod cgi
 
 # apache2 configuration: enabling SSI and perl/CGI scripts
-COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY apache2.conf /etc/apache2/apache2.conf
+COPY conf/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY conf/apache2.conf /etc/apache2/apache2.conf
 
 # Copy certificates
 RUN mkdir -p /etc/ssl/certs
@@ -33,14 +33,9 @@ COPY certs/totem-label.crt /etc/ssl/certs/totem-label.crt
 COPY certs/totem-label.key /etc/ssl/certs/totem-label.key
 
 # Clone LabelMe, move it and make
-ARG CACHEBUST=1
-RUN git clone https://github.com/sicara/LabelMeAnnotationTool.git
-ARG CACHEBUST=0
-RUN mv ./LabelMeAnnotationTool/ /var/www/html/LabelMeAnnotationTool/
+ADD . /var/www/html/LabelMeAnnotationTool/
 RUN cd /var/www/html/LabelMeAnnotationTool/ && make
 RUN chown -R www-data:www-data /var/www/html
-COPY ./Images /var/www/html/LabelMeAnnotationTool/Images
-
 
 # port binding
 EXPOSE 443
