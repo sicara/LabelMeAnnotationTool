@@ -37,6 +37,7 @@ RUN git clone https://github.com/sicara/LabelMeAnnotationTool.git
 RUN mv ./LabelMeAnnotationTool/ /var/www/html/LabelMeAnnotationTool/
 RUN cd /var/www/html/LabelMeAnnotationTool/ && make
 RUN chown -R www-data:www-data /var/www/html
+COPY ./Images /var/www/html/LabelMeAnnotationTool/Images
 
 
 # port binding
