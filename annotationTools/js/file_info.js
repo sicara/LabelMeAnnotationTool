@@ -9,11 +9,11 @@
  * @constructor
 */
 function file_info() {
-    
+
     // *******************************************
     // Private variables:
     // *******************************************
-    
+
     this.page_in_use = 0; // Describes if we already see an image.
     this.dir_name = null;
     this.im_name = null;
@@ -23,11 +23,11 @@ function file_info() {
     this.assignmentId = null;
     this.workerId = null;
     this.mt_instructions = null;
-    
+
     // *******************************************
     // Public methods:
     // *******************************************
-    
+
     /** Parses the URL and gets the collection, directory, and filename
      * information of the image to be annotated.  Returns true if the
      * URL has collection, directory, and filename information.
@@ -103,7 +103,7 @@ function file_info() {
                 if(par_field=='workerId') {
                     this.workerId = par_value;
                     isMT = true;
-                    
+
                     // Get second-half of workerId:
                     var len = Math.round(this.workerId.length/2);
                     username = 'MT_' + this.workerId.substring(len-1,this.workerId.length);
@@ -195,19 +195,21 @@ function file_info() {
             } while(idx != -1);
             if (video_mode) return 1;
             if((!this.dir_name) || (!this.im_name)) return this.SetURL(labelme_url);
-            
+
             if(isMT) {
                 this.mode='mt'; // Ensure that we are in MT mode
                 view_ObjList = default_view_ObjList;
             }
-            
+
             if((this.mode=='i') || (this.mode=='c') || (this.mode=='f')) {
                 document.getElementById('body').style.visibility = 'visible';
             }
             else if((this.mode=='im') || (this.mode=='mt')) {
                 var p = document.getElementById('header');
                 p.parentNode.removeChild(p);
-                var p = document.getElementById('tool_buttons');
+                var p = document.getElementById('label_buttons_navigation');
+                p.parentNode.removeChild(p);
+                var p = document.getElementById('label_buttons_contrast');
                 p.parentNode.removeChild(p);
                 document.getElementById('body').style.visibility = 'visible';
             }
@@ -215,12 +217,12 @@ function file_info() {
                 this.mode = 'i';
                 document.getElementById('body').style.visibility = 'visible';
             }
-            
+
             if(!view_ObjList) {
                 var p = document.getElementById('anno_anchor');
                 p.parentNode.removeChild(p);
             }
-            
+
             if(this.assignmentId=='ASSIGNMENT_ID_NOT_AVAILABLE') {
                 window.location = MThelpPage;
                 return false;
@@ -232,88 +234,88 @@ function file_info() {
                     else this.mt_instructions = 'Please label at least ' + mt_N + ' objects in this image.';
                 }
                 if(mt_N=='inf') mt_N = 1;
-                
+
                 var html_str = '<table><tr><td><font size="4"><b>' + this.mt_instructions + '  Scroll down to see the entire image. &#160;&#160;&#160; </b></font></td><td><form action="' + externalSubmitURL + '"><input type="hidden" id="assignmentId" name="assignmentId" value="'+ this.assignmentId +'" /><input type="hidden" id="number_objects" name="number_objects" value="" /><input type="hidden" id="object_name" name="object_name" value="" /><input type="hidden" id="LMurl" name="LMurl" value="" /><input type="hidden" id="mt_comments" name="mt_comments" value="" /><input disabled="true" type="submit" id="mt_submit" name="Submit" value="Submit HIT" onmousedown="javascript:document.getElementById(\'mt_comments\').value=document.getElementById(\'mt_comments_textbox\').value;" /></form></td></tr></table>';
-                
+
 		$('#mt_submit_form').append(html_str);
-                
+
                 var html_str2 = '<font size="4"><b>Scroll up to see the entire image</b></font>&#160;&#160;&#160;<font size="3">(Optional) Do you wish to provide any feedback on this HIT?</font><br /><textarea id="mt_comments_textbox" name="mt_comments_texbox" cols="94" nrows="5" />';
 		$('#mt_feedback').append(html_str2);
-                
+
                 if(global_count >= mt_N) document.getElementById('mt_submit').disabled=false;
             }
         }
         else {
             return this.SetURL(labelme_url);
         }
-        
+
         return 1;
     };
-    
+
     /** Gets mode */
     this.GetMode = function() {
         return this.mode;
     };
-    
+
     /** Gets collection name */
     this.GetCollection = function () {
         return this.collection;
     };
-    
+
     /** Gets directory name */
     this.GetDirName = function () {
         return this.dir_name;
     };
-    
+
     /** Gets image name */
     this.GetImName = function () {
         return this.im_name;
     };
-    
+
     /** Sets image name */
     this.SetImName = function (newImName){
         this.im_name = newImName;
     };
-    
+
     /** Gets image path */
     this.GetImagePath = function () {
         if((this.mode=='i') || (this.mode=='c') || (this.mode=='f') || (this.mode=='im') || (this.mode=='mt')) return 'Images/' + this.dir_name + '/' + this.im_name;
     };
-    
+
     /** Gets annotation path */
     this.GetAnnotationPath = function () {
         if((this.mode=='i') || (this.mode=='c') || (this.mode=='f') || (this.mode=='im') || (this.mode=='mt')) return 'Annotations/' + this.dir_name + '/' + this.im_name.substr(0,this.im_name.length-4) + '.xml';
     };
-    
+
     /** Gets full image name */
     this.GetFullName = function () {
         if((this.mode=='i') || (this.mode=='c') || (this.mode=='f') || (this.mode=='im') || (this.mode=='mt')) return this.dir_name + '/' + this.im_name;
     };
-    
+
     /** Gets template path */
     this.GetTemplatePath = function () {
         if(!this.dir_name) return 'annotationCache/XMLTemplates/labelme.xml';
         return 'annotationCache/XMLTemplates/' + this.dir_name + '.xml';
     };
-    
+
     // *******************************************
     // Private methods:
     // *******************************************
-    
+
     /** String is assumed to have field=value form.  Parses string to
     return the field. */
     this.GetURLField = function (str) {
         var idx = str.indexOf('=');
         return str.substring(0,idx);
     };
-    
+
     /** String is assumed to have field=value form.  Parses string to
      return the value. */
     this.GetURLValue = function (str) {
         var idx = str.indexOf('=');
         return str.substring(idx+1,str.length);
     };
-    
+
     /** Changes current URL to include collection, directory, and image
     name information.  Returns false. */
     this.SetURL = function (url) {
@@ -324,11 +326,11 @@ function file_info() {
         if(idx != -1) {
             url = url.substring(0,idx);
         }
-        
+
         // Include username in URL:
         var extra_field = '';
         if(username != 'anonymous') extra_field = '&username=' + username;
-        
+
         if(this.mode=='i') window.location = url + '?collection=' + this.collection + '&mode=' + this.mode + '&folder=' + this.dir_name + '&image=' + this.im_name + extra_field;
         else if(this.mode=='im') window.location = url + '?collection=' + this.collection + '&mode=' + this.mode + '&folder=' + this.dir_name + '&image=' + this.im_name + extra_field;
         else if(this.mode=='mt') window.location = url + '?collection=' + this.collection + '&mode=' + this.mode + '&folder=' + this.dir_name + '&image=' + this.im_name + extra_field;
@@ -336,7 +338,7 @@ function file_info() {
         else if(this.mode=='f') window.location = url + '?mode=' + this.mode + '&folder=' + this.dir_name + '&image=' + this.im_name + extra_field;
         return false;
     };
-    
+
     /** Fetch next image. */
     this.FetchImage = function () {
         var url = 'annotationTools/perl/fetch_image.cgi?mode=' + this.mode + '&username=' + username + '&collection=' + this.collection.toLowerCase() + '&folder=' + this.dir_name + '&image=' + this.im_name;
